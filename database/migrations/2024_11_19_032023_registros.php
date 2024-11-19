@@ -11,28 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('registros', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('cedula', 15)->unique(); // Cédula como string
             $table->string('telefono', 20)->unique(); // Teléfono como string
             $table->date('fecha_nacimiento')->nullable(); // Fecha de nacimiento
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->unsignedBigInteger('grupo_id');
+            $table->foreign('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
             $table->softDeletes();
-
-            $table->rememberToken();
             $table->timestamps();
         });
     }
-   
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('registros');
     }
 };
